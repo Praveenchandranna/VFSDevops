@@ -1,6 +1,7 @@
 public with sharing class CCClass {
     public CCClass() {
 
+        System.debug('Updated Changes from UI');
     }
 
     public void getAllCases(){
