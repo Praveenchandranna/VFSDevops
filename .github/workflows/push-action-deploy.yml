@@ -38,13 +38,11 @@ jobs:
 
             # Authenticate to org
 
-            - name: 'run Deployment for Mentioned package'
+            - name: 'run Test class for Mentioned Testclass file'
               run: echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
-            - ${{ if (testlevel, 'RunSpecifiedTests') }}:
-              - name: 'Validation of Test classes from Package'
-                run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_DEVHUB_USERNAME }} --setdefaultdevhubusername
-              - run: sfdx force:source:deploy --manifest=manifest/TestClass.txt --testlevel=RunSpecifiedTests -u ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
-              - script: "Successfully testclass validated'"
+            - run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_DEVHUB_USERNAME }} --setdefaultdevhubusername
+            - run: sfdx force:source:deploy --manifest=manifest/TestClass.txt --testlevel=RunSpecifiedTests -u ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
+
 
             - name: 'Deploy the entire branch to Prod org'
               run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_DEVHUB_USERNAME }} --setdefaultdevhubusername
