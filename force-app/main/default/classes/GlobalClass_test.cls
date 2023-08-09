@@ -4,6 +4,8 @@ public with sharing class GlobalClass_test {
     @isTest
     public  void testmentod1()
     {
-        GlobalClass.getAllCases();
+        
+        GlobalClass g= new GlobalClass();
+        g.getAllCases();
     }
 }
