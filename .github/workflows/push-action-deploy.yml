@@ -11,7 +11,7 @@ on:
 
 # Jobs to be executed
 jobs:
-    deploy-branch-to-int-and-staging-orgs:
+    Intdev_Deployment:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
