@@ -4,14 +4,14 @@ name: Deploy integration branch to integration and staging/uat orgs
 # Definition when the workflow should run
 on:
     push:
-      branches: [ main ]
+      branches: [ Hotfix ]
       paths:
         - 'force-app/**'
             
 
 # Jobs to be executed
 jobs:
-    Intdev_Deployment:
+    Production_and_Hotfix_Deployment:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
@@ -48,8 +48,14 @@ jobs:
                   sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
 
             # Authenticate to org
-            - name: 'Authenticate to Integration Org'
+            - name: 'Authenticate to Production Org'
               run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_DEVHUB_USERNAME }} --setdefaultdevhubusername
 
-            - name: 'Deploy the entire branch to Integration org'
+            - name: 'Deploy the entire branch to Production org'
+              run: sfdx force:source:deploy -p force-app --testlevel RunLocalTests -u ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
+
+            - name: 'Authenticate to hotfix Org'
+              run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_DEVHUB_USERNAME }} --setdefaultdevhubusername
+
+            - name: 'Deploy the entire branch to Hotfix org'
               run: sfdx force:source:deploy -p force-app --testlevel RunLocalTests -u ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
