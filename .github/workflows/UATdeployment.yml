@@ -11,7 +11,7 @@ on:
 
 # Jobs to be executed
 jobs:
-    Intdev_Deployment:
+    UAT_Deployment:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
