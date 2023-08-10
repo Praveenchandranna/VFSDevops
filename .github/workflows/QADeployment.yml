@@ -4,7 +4,7 @@ name: Deploy integration branch to integration and staging/uat orgs
 # Definition when the workflow should run
 on:
     push:
-      branches: [ main ]
+      branches: [ QA ]
       paths:
         - 'force-app/**'
             
@@ -49,7 +49,7 @@ jobs:
 
             # Authenticate to org
             - name: 'Authenticate to Integration Org'
-              run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_DEVHUB_USERNAME }} --setdefaultdevhubusername
+              run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY_QA }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_QA_USERNAME }} --setdefaultdevhubusername --setalias QA
 
             - name: 'Deploy the entire branch to Integration org'
-              run: sfdx force:source:deploy -p force-app --testlevel RunLocalTests -u ${{ secrets.SALESFORCE_DEVHUB_USERNAME }}
+              run: sfdx force:source:deploy -p force-app --testlevel RunLocalTests -u ${{ secrets.SALESFORCE_QA_USERNAME }}
