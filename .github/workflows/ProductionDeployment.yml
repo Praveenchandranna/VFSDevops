@@ -48,21 +48,21 @@ jobs:
       # to extract this information from the PR, and pass it on the the VM.
 
       - name: 'Read PR Body'
-          env:
+        env:
             # The pull request body is available through the github context object
             # we put the body of the pull request in an env variable (only available to this step)
-            PR_BODY: ${{github.event.pull_request.body}}
-          run: |
-                  echo $PR_BODY > - 'force-app/manifest/**_TestClass.txt'
-                  node ./parsePR.js              
-                  TESTS=$(cat testsSpecific.txt)       
-                  echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
+          PR_BODY: ${{github.event.pull_request.body}}
+        run: |
+            echo $PR_BODY > - 'force-app/manifest/**_TestClass.txt'
+            node ./parsePR.js              
+            TESTS=$(cat testsSpecific.txt)       
+            echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
       #Apex class
       - name: 'Parse all tests'
-          run: |
-                  node ./parseAllTests.js             
-                  ALLTESTS=$(cat testsAll.txt)       
-                  echo "APEX_TESTS_ALL=$ALLTESTS" >> $GITHUB_ENV  
+        run: |
+            node ./parseAllTests.js             
+            ALLTESTS=$(cat testsAll.txt)       
+            echo "APEX_TESTS_ALL=$ALLTESTS" >> $GITHUB_ENV  
 
       - name: Install Salesforce CLI
         run: |
