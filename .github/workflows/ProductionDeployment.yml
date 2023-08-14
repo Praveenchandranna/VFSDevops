@@ -30,6 +30,7 @@ jobs:
                   sfdx plugins 
 jobs:
     Checkout_Source:
+        runs-on: ubuntu-latest
         Steps:
             # Checkout the source code
             - name: 'Checkout source code'
@@ -48,27 +49,32 @@ jobs:
                   sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
 jobs:                  
     Authorization_to_Production_Org:
+        runs-on: ubuntu-latest
         Steps:
             # Authenticate to org
             - name: 'Authenticate to Production Org'
               run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY_QA }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_QA_USERNAME }} --setdefaultdevhubusername
 jobs:
     Validation:
+        runs-on: ubuntu-latest
         Steps:
             - name: 'Validation Against Production org'
               run: sfdx force:source:deploy --checkonly -p force-app --testlevel NoTestRun -u ${{ secrets.SALESFORCE_QA_USERNAME }}
 jobs:
     Deployment_to_Production:
+        runs-on: ubuntu-latest
         Steps:
             - name: 'Deploy the entire branch to Production org'
               run: sfdx force:source:deploy -p force-app --testlevel NoTestRun -u ${{ secrets.SALESFORCE_QA_USERNAME }}
 jobs:
     Authorization_to_Hotifix:
+        runs-on: ubuntu-latest
         Steps:
             - name: 'Authenticate to hotfix Org'
               run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY_UAT }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_UAT_USERNAME }} --setdefaultdevhubusername
 jobs:
     Deoployment_to_Production:
+        runs-on: ubuntu-latest
         Steps:
             - name: 'Deploy the entire branch to Hotfix org'
               run: sfdx force:source:deploy -p force-app --testlevel NoTestRun -u ${{ secrets.SALESFORCE_UAT_USERNAME }}
