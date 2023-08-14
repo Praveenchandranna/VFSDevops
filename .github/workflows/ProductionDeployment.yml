@@ -36,8 +36,7 @@ jobs:
             - name: 'List of project present in the repo'
               run: |
                   ls -ltr
-                  java -version
-                  
+                  java -version     
             - name: 'Installing sfdx git delta'
               run: CURRENT_COMMIT_HASH="$(git rev-parse --short HEAD)"
               - if: ${{ ! git show ${CURRENT_COMMIT_HASH} | grep -q  }}
