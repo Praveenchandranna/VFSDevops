@@ -7,5 +7,6 @@ public with sharing class CCClassVfs {
         System.debug('In VFS CC Class');
         System.debug('In VFS CC Class1'); 
         System.debug('In VFS CC Class 2');
+        System.debug('In VFS CC Class 3');
     }
 }
