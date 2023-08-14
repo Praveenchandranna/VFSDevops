@@ -50,16 +50,14 @@ jobs:
           echo "BITBUCKET_PR_SOURCE_BRANCH: ${BITBUCKET_PR_SOURCE_BRANCH}"
 
           IFS='/' read -ra BRANCH_PARTS <<< "${BITBUCKET_PR_SOURCE_BRANCH}" # split branch name by '/'
-          vif: {[ "${#BRANCH_PARTS[@]}" -eq 0 ]}
+          if: {[ "${#BRANCH_PARTS[@]}" -eq 0 ]}
       - run: echo "No branch prefix specified, this commit wont be versioned."
-      - name: Populate auth file with SFDX_URL secret of the integration and staging
-          orgs
+      - name: Populate auth file with SFDX_URL secret of the integration and staging orgs
         shell: bash
         run: echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
       - name: Create delta packages for new, modified or deleted metadata
         run: |
-          mkdir changed-sources
-
+          mkdir changed-sources 
           sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/                 
       - name: Authenticate to Production Org
         run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY_QA}} --jwtkeyfile=server.key --username=${{secrets.SALESFORCE_QA_USERNAME }} --setdefaultdevhubusername
