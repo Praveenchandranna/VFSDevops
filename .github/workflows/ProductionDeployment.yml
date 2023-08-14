@@ -32,36 +32,18 @@ jobs:
             - name: 'Checkout source code'
               uses: actions/checkout@v2
               with:
-                fetch-depth: 0           
-            - name: Get branch names
-              id: branch-name
-              uses: tj-actions/branch-names@v7      
-              
-            - name: Running on the default branch.
-              if: steps.branch-name.outputs.is_default == 'true'
-              run: |
-                echo "Running on default: ${{ steps.branch-name.outputs.current_branch }}" 
-              # Outputs: "Running on default: main"
-            
+                fetch-depth: 0                      
             - name: Get Head Ref branch name (i.e The current pull request branch)
               run: |
-                echo "${{ steps.branch-name.outputs.head_ref_branch }}"
-              # Outputs: "feature/test" current PR branch.
-            - run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-            - run: echo "branch"
-              id: extract_branch
-
-            - name: Running on a pull request branch.
-              if: steps.branch-name.outputs.is_default == 'false'
-              run: |
-                echo "Base branch: ${{ steps.branch-name.outputs.base_ref_branch }}"
-              # Outputs: "Base branch: main"
-              
-            - name: Running on any event
-              run: |
-                echo "Default branch: ${{ steps.branch-name.outputs.default_branch }}"
-              # Outputs: "Default branch: main"
-
+                merge_base=$(git merge-base $merge_destination_branch $merge_source_branch)
+                merge_source_current_commit=$(git rev-parse $merge_source_branch)
+                 if [[ $merge_base = $merge_source_current_commit ]]
+                then
+                  echo $merge_source_branch is merged into $merge_destination_branch
+                  return 0
+                else
+                  echo $merge_source_branch is not merged into $merge_destination_branch
+                  return 1
             # List of project present in the repo
 
             - name: 'List of project present in the repo'
