@@ -9,5 +9,6 @@ public with sharing class CCClass {
         System.debug('Updated Changes from UI');
         System.debug('Updated Changes from UIa');
         System.debug('Updated Changes from UIa');
+        System.debug('Updated Changes from UIa12345');
     }
 }
