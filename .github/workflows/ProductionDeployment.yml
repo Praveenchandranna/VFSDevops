@@ -32,7 +32,11 @@ jobs:
             - name: 'Checkout source code'
               uses: actions/checkout@v2
               with:
-                fetch-depth: 0                 
+                fetch-depth: 0           
+            - name: Get branch names
+              id: branch-name
+              uses: tj-actions/branch-names@v7      
+              
             - name: Running on the default branch.
               if: steps.branch-name.outputs.is_default == 'true'
               run: |
