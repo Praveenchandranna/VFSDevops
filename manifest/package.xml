@@ -3,17 +3,12 @@
 	<types>
 		<members>CCClass</members>
 		<members>CCClassVfs</members>
-		<members>ClassforVFSCC</members>
-		<members>ClassforVFSGlobal</members>
-		<members>ClassforVFSKAM</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
 		<members>database</members>
 		<members>datatable</members>
 		<members>format</members>
-		<members>helloWorld</members>
-		<members>ClassforVFSKAM</members>
 		<name>light</name>
 	</types>
 	<version>55.0</version>
