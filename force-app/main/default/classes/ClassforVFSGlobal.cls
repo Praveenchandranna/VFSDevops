@@ -5,5 +5,6 @@ public with sharing class ClassforVFSGlobal {
 
     public void getAllCasesKAM(){
         system.debug('In VFS Global!');
+        system.debug('In VFS Global!');
     }
 }
