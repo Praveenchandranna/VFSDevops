@@ -29,6 +29,8 @@ jobs:
                   echo y | sfdx plugins:install sfdx-git-delta
                   sfdx plugins 
     Checkout_Source:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
         Steps:
             # Checkout the source code
             - name: 'Checkout source code'
@@ -46,27 +48,35 @@ jobs:
                   mkdir changed-sources
                   sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
     Authorization_to_Production_Org:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
         Steps:
             # Authenticate to org
             - name: 'Authenticate to Production Org'
               run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY_QA }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_QA_USERNAME }} --setdefaultdevhubusername
     Validation:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
         Steps:
             - name: 'Validation Against Production org'
               run: sfdx force:source:deploy --checkonly -p force-app --testlevel NoTestRun -u ${{ secrets.SALESFORCE_QA_USERNAME }}
 
     Deployment_to_Production:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
         Steps:
             - name: 'Deploy the entire branch to Production org'
               run: sfdx force:source:deploy -p force-app --testlevel NoTestRun -u ${{ secrets.SALESFORCE_QA_USERNAME }}
-
-
     Authorization_to_Hotifix:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
         Steps:
             - name: 'Authenticate to hotfix Org'
               run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY_UAT }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_UAT_USERNAME }} --setdefaultdevhubusername
 
     Deoployment_to_Production:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
         Steps:
             - name: 'Deploy the entire branch to Hotfix org'
               run: sfdx force:source:deploy -p force-app --testlevel NoTestRun -u ${{ secrets.SALESFORCE_UAT_USERNAME }}
