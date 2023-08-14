@@ -28,9 +28,6 @@ jobs:
               run: | 
                   echo y | sfdx plugins:install sfdx-git-delta
                   sfdx plugins 
-    Checkout_Source:
-        runs-on: ubuntu-latest
-        Steps:
             # Checkout the source code
             - name: 'Checkout source code'
               uses: actions/checkout@v2
@@ -46,29 +43,24 @@ jobs:
               run: | 
                   mkdir changed-sources
                   sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/                 
-    Authorization_to_Production_Org:
-        runs-on: ubuntu-latest
-        Steps:
-            # Authenticate to org
+            # Authenticate to Production org
             - name: 'Authenticate to Production Org'
               run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY_QA }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_QA_USERNAME }} --setdefaultdevhubusername
-    Validation:
-        runs-on: ubuntu-latest
-        Steps:
+
+
+            # Validation for Production
             - name: 'Validation Against Production org'
               run: sfdx force:source:deploy --checkonly -p force-app --testlevel NoTestRun -u ${{ secrets.SALESFORCE_QA_USERNAME }}
-    Deployment_to_Production:
-        runs-on: ubuntu-latest
-        Steps:
-            - name: 'Deploy the entire branch to Production org'
+
+
+            # Deployment in production
+            - name: 'Deploy To Production org'
               run: sfdx force:source:deploy -p force-app --testlevel NoTestRun -u ${{ secrets.SALESFORCE_QA_USERNAME }}
-    Authorization_to_Hotifix:
-        runs-on: ubuntu-latest
-        Steps:
+              
+            # Authenticate to hotfix Org
             - name: 'Authenticate to hotfix Org'
               run: sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY_UAT }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_UAT_USERNAME }} --setdefaultdevhubusername
-    Deoployment_to_Production:
-        runs-on: ubuntu-latest
-        Steps:
-            - name: 'Deploy the entire branch to Hotfix org'
+
+            # Authenticate to org
+            - name: 'Deploy To Hotfix org'
               run: sfdx force:source:deploy -p force-app --testlevel NoTestRun -u ${{ secrets.SALESFORCE_UAT_USERNAME }}
