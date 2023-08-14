@@ -37,21 +37,22 @@ jobs:
               run: |
                   ls -ltr
                   java -version
+                  
             - name: 'Installing sfdx git delta'
               run: CURRENT_COMMIT_HASH="$(git rev-parse --short HEAD)"
-              if: ${{ ! git show ${CURRENT_COMMIT_HASH} | grep -q  }}
-              run: |
-                  echo "Single commit directly added to branch, versioning only works for branch merge."
-                  return 0
+              - if: ${{ ! git show ${CURRENT_COMMIT_HASH} | grep -q  }}
+              - run: |
+                    echo "Single commit directly added to branch, versioning only works for branch merge."
+                    return 0
 
-              run: |
+              - run: |
                   BITBUCKET_PR_SOURCE_BRANCH=$(git show ${CURRENT_COMMIT_HASH} | grep -oP 'Merged in \K.*(?= \(pull request)')
                   echo "BITBUCKET_PR_SOURCE_BRANCH: ${BITBUCKET_PR_SOURCE_BRANCH}"
                   IFS='/' read -ra BRANCH_PARTS <<< "${BITBUCKET_PR_SOURCE_BRANCH}" # split branch name by '/'
 
-                - if: {{[ "${#BRANCH_PARTS[@]}" -eq 0 ]}}
-                run: |
-                     echo "No branch prefix specified, this commit wont be versioned."
+              - if: {{[ "${#BRANCH_PARTS[@]}" -eq 0 ]}}
+              - run: |
+                  echo "No branch prefix specified, this commit wont be versioned."
 
             # Store secret for both orgs
             - name: 'Populate auth file with SFDX_URL secret of the integration and staging orgs'
