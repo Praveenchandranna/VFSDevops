@@ -55,7 +55,7 @@ jobs:
         run: |
             echo $PR_BODY > - './pr_body.txt'
             node ./parsePR.js              
-            TESTS=$(cat testsSpecific.txt)       
+            TESTS=$(cat *TestClass.txt)       
             echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
       #Apex class
       - name: 'Parse all tests'
