@@ -8,7 +8,7 @@ public with sharing class CCClass {
         System.debug('In VFS CC Class');
         System.debug('Updated Changes from UI');
         System.debug('Updated Changes from UIa');
-        System.debug('Updated Changes from UIa');
+        System.debug('Updated Changes cfrom UIa');
         System.debug('Updated Changes from UIa12345');
         System.debug('Updated Changes from UIa12345');
         System.debug('Updated Changes from UIa1234khjgfg5');
