@@ -33,8 +33,21 @@ jobs:
               uses: actions/checkout@v2
               with:
                 fetch-depth: 0
+            #Get Branch Name
+            - name: Get branch name
+              id: branch-name
+              uses: tj-actions/branch-names@v7
+            - name: Running on a pull request branch.
+              if: steps.branch-name.outputs.is_default == 'false'
+              run: |
+                echo "Running on pr: ${{ steps.branch-name.outputs.current_branch }}"
+            # List of project present in the repo
 
-            # Store secret for both otgs
+            - name: 'List of project present in the repo'
+              run: |
+                  ls -ltr
+                  java -version
+            # Store secret for both orgs
             - name: 'Populate auth file with SFDX_URL secret of the integration and staging orgs'
               shell: bash
               run: echo "${{ secrets.SALESFORCE_JWT_SECRET_KEY }}" > server.key
