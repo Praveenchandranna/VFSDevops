@@ -1,6 +1,9 @@
 ---
 name: Deploy integration branch to integration and staging/uat orgs
 on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: Hotfix
   push:
     branches:
       - Hotfix
