@@ -118,16 +118,16 @@ jobs:
         if: ${{ env.APEX_TESTS != 'all' }}
         run: |
             echo ${{env.APEX_TESTS}}
-            sfdx force:source:deploy --checkonly -p "force-app" --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} -u ${{ secrets.SALESFORCE_QA_USERNAME }}
+            sfdx force:source:deploy --checkonly -p "changed-sources/force-app" --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} -u ${{ secrets.SALESFORCE_QA_USERNAME }}
 
       - name: Deploy To Production org
         if: ${{ env.APEX_TESTS == 'all' }}
         run: |
             echo ${{env.APEX_TESTS_ALL}}
-            sfdx force:source:deploy -p "force-app" --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS_ALL}} -u ${{secrets.SALESFORCE_QA_USERNAME }}
+            sfdx force:source:deploy -p "changed-sources/force-app" --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS_ALL}} -u ${{secrets.SALESFORCE_QA_USERNAME }}
 
       - name: Authenticate to hotfix Org
         run: sfdx force:auth:jwt:grant --clientid=${{secrets.SALESFORCE_CONSUMER_KEY_UAT }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_UAT_USERNAME }} --setdefaultdevhubusername
 
       - name: 'Deploying to hotfix org'
-        run: sfdx force:source:deploy -p force-app --testlevel NoTestRun -u ${{ secrets.SALESFORCE_UAT_USERNAME }}
+        run: sfdx force:source:deploy -p "changed-sources/force-app" --testlevel NoTestRun -u ${{ secrets.SALESFORCE_UAT_USERNAME }}
