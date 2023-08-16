@@ -3,6 +3,7 @@
 	<types>
 		<members>CCClass</members>
 		<members>CCClassVfs</members>
+		<members>GlobalClass_test</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
