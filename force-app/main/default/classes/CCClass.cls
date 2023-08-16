@@ -15,5 +15,6 @@ public with sharing class CCClass {
         System.debug('Updated Change s from UIa1234fg5');
         System.debug('Updated Chang es from UIascs12346');
         System.debug('Updated Chang es from UIascs12346');
+        System.debug('Updated Chang es from UIascs12346');
     }
 }
