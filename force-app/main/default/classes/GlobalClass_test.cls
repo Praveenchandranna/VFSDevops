@@ -1,9 +1,10 @@
-public with sharing class CCClass {
-    public CCClass() {
-
+@istest
+public with sharing class GlobalClass_test {
+    @istest
+    public static void testdata()
+    {
+        CCClass c=new CCClass();
+        c.getAllCases();
     }
 
-    public void getAllCases(){
-        list<account> str=[select id from account limit 1];
-    }
 }
