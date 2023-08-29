@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.environment == 'intdev' }}
     steps:
-      - uses: actions/checkout@v3
       - name: Test class execution
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Install SFDX
@@ -52,8 +52,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.environment == 'production' }}
     steps:
-      - uses: actions/checkout@v3
       - name: Test class execution
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Install SFDX
