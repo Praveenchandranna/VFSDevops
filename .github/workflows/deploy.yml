@@ -1,6 +1,7 @@
 name: Manual Deploy
 
 on:
+  push:
   workflow_dispatch:
     inputs:
       environment:
@@ -22,6 +23,20 @@ jobs:
     if: ${{ github.event.inputs.environment == 'intdev' }}
     steps:
       - uses: actions/checkout@v3
+      - name: Test class execution
+        with:
+          fetch-depth: 0
+      - name: Install SFDX
+        run: |
+          npm install --global sfdx-cli
+          sfdx --version
+      - name: Login To Org
+        run: |
+          sfdx org login sfdx-url --set-default --sfdx-url-file <(echo "${{ secrets.SFDX_AUTH_URL_INTDEV }}")
+      - name: Run Test Classes
+        run: |
+          sfdx apex run test -l RunLocalTests -w 15
+
       - name: Deploy to intdev
         uses: ./.github/actions/deploy-environment
         with:
@@ -34,6 +49,19 @@ jobs:
     if: ${{ github.event.inputs.environment == 'production' }}
     steps:
       - uses: actions/checkout@v3
+      - name: Test class execution
+        with:
+          fetch-depth: 0
+      - name: Install SFDX
+        run: |
+          npm install --global sfdx-cli
+          sfdx --version
+      - name: Login To Org
+        run: |
+          sfdx org login sfdx-url --set-default --sfdx-url-file <(echo "${{ secrets.SFDX_AUTH_URL_INTDEV }}")
+      - name: Run Test Classes
+        run: |
+          sfdx apex run test -l RunLocalTests -w 15
       - name: Deploy to production
         uses: ./.github/actions/deploy-environment
         with:
