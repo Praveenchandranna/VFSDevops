@@ -10,6 +10,7 @@ public with sharing class CCClass {
         System.debug('Updated Changes from UI');
         System.debug('Updated Changes from UI');
         System.debug('Updated Changes from UI');
-        System.debug('Updated Changes from UI');
+        System.debug('Updated Changes from UI1');
+
     }
 }
