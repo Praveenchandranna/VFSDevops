@@ -2,8 +2,6 @@ name: Run Test Classes
 
 on: 
   push:
-    branches:
-      - Release
     paths:
       - force-app/**
 
