@@ -2,6 +2,8 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>CCClass</members>
+		<members>GlobalClass</members>
+		<members>GlobalClass_test</members>
 		<name>ApexClass</name>
 	</types>
 
