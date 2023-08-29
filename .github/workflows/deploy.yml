@@ -7,9 +7,9 @@ on:
         type: choice
         description: Which environment to deploy to
         options:
-          - partial-sandbox
+          - intdev
           - production
-        default: "partial-sandbox"
+        default: "intdev"
         required: true
       validateOnly:
         description: "Run the deployment as validation only"
@@ -19,13 +19,13 @@ on:
 jobs:
   deploy-partial-sandbox:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.environment == 'partial-sandbox' }}
+    if: ${{ github.event.inputs.environment == 'intdev' }}
     steps:
       - uses: actions/checkout@v3
-      - name: Deploy to partial sandbox
+      - name: Deploy to intdev
         uses: ./.github/actions/deploy-environment
         with:
-          sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_PARTIALSB }}
+          sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_INTDEV }}
           environmentName: ${{ github.event.inputs.environment }}
           validateOnly: ${{ github.event.inputs.validateOnly }}
 
