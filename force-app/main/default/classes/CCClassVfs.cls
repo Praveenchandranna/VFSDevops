@@ -5,5 +5,6 @@ public with sharing class CCClassVfs {
     //comments
     public void getAllCases(){
         System.debug('In VFS CC Class');
+        System.debug('In VFS CC Class');
     }
 }
