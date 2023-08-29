@@ -2,6 +2,10 @@ name: Manual Deploy
 
 on:
   push:
+    branches:
+      - Release
+    paths:
+      - force-app/**
   workflow_dispatch:
     inputs:
       environment:
