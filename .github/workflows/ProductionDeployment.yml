@@ -6,7 +6,9 @@ on:
     push:
       branches: [ main ]
       paths:
-        - 'force-app/**'
+        - 'es-base-custom/**'
+        - 'es-base-ext/**'
+        - 'es-base-styles/**'
             
 
 # Jobs to be executed
