@@ -1,0 +1,9 @@
+Create Self-Signed Cert and Key
+mkdir -p ~/.ssh/jwt
+cd ~/.ssh/jwt
+openssl genrsa -des3 -passout pass:SomePassword -out server.pass.key 2048
+openssl rsa -passin pass:SomePassword -in server.pass.key -out server.key
+rm server.pass.key
+openssl req -new -key server.key -out server.csr
+
+sfdx force:auth:jwt:grant --clientid=[85 char string] --jwtkeyfile=/home/username/.ssh/jwt/server.key --username=username@domain.com --setdefaultdevhubusername --setalias devjwt
